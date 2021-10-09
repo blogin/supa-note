@@ -6,28 +6,22 @@
       mode="horizontal"
       @select="handleSelect"
     >
-      <el-menu-item index="1">Processing Center</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">Workspace</template>
-        <el-menu-item index="2-1">item one</el-menu-item>
-        <el-menu-item index="2-2">item two</el-menu-item>
-        <el-menu-item index="2-3">item three</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">item four</template>
-          <el-menu-item index="2-4-1">item one</el-menu-item>
-          <el-menu-item index="2-4-2">item two</el-menu-item>
-          <el-menu-item index="2-4-3">item three</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="3" disabled>Info</el-menu-item>
-      <el-menu-item index="4"
-        ><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item
-      >
+      <el-menu-item index="1">
+        <router-link to="/" class="dropdown-item">Добавить заметку</router-link>
+      </el-menu-item>
+      <el-menu-item index="2">
+        <router-link to="/archive" class="dropdown-item">Архив</router-link>
+      </el-menu-item>
+      <el-menu-item index="LogOut">
+        Выйти
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script>
+import firebase from "firebase"
+import {mapMutations} from 'vuex'
   export default {
     data() {
       return {
@@ -36,15 +30,41 @@
       };
     },
     methods: {
+      ...mapMutations(["setUserId"]),
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        if(key == "LogOut"){
+            firebase
+              .auth()
+              .signOut()
+              .then(() => {
+                this.$message({
+                  dangerouslyUseHTMLString: true,
+                  message: '<span style="font-size:17px;">Вы успешно вышли</span>',
+                  type: 'success',
+                  showClose: true,
+                  duration: 2000
+                });
+                this.setUserId(null)
+                this.$router.push('/');
+              })
+              .catch(error => {
+                  this.$message({
+                    dangerouslyUseHTMLString: true,
+                    message: `<span style="font-size:17px;">${error.message}</span>`,
+                    type: 'error',
+                    showClose: true,
+                    duration: 4000
+                  });
+                  this.$router.push('/');
+              });
+        }
       }
     }
   }
 </script>
 
 <style scoped>
-.el-menu{
-    margin-bottom: 20px;
+.el-menu {
+  margin-bottom: 20px;
 }
 </style>
