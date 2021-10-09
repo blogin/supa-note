@@ -25,7 +25,7 @@ export default {
         .then(() => {
           Message(({
             dangerouslyUseHTMLString: true,
-            message: '<span style="font-size:17px;">Login success</span>',
+            message: '<span style="font-size:17px;">Вы успешно вошли</span>',
             type: 'success',
             showClose: true,
             duration: 2000
