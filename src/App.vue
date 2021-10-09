@@ -1,15 +1,20 @@
 <template>
   <div id="app">
-    <navBar />
+    <navBar v-if="userId" />
     <router-view/>
   </div>
 </template>
 
 <script>
 import navBar from "./components/NavBar.vue"
+import { mapGetters } from 'vuex'
+
 export default {
   components:{
-    navBar
+    navBar,
+  },
+  computed:{
+    ...mapGetters(["userId"])
   }
 }
 </script>
