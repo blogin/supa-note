@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import { Message } from 'element-ui';
-import router from '../../router/index'
+import './note'
 
 export default {
   state: {
@@ -17,7 +17,7 @@ export default {
     }
   },
   actions: {
-    async logInCheck ({commit}, payload) {      
+    async logInCheck ({commit, dispatch}, payload) {      
       const user =  await firebase
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.pass)
@@ -30,7 +30,7 @@ export default {
             duration: 2000
           }))
           commit("setUserId",firebase.auth().currentUser.uid)
-          router.push("/home")
+          
         })
         .catch(error => {
           Message(({
@@ -40,6 +40,7 @@ export default {
             showClose: true,
             duration: 4000
           }))
+          commit("setBtnLoading", false)
         });
       }
 

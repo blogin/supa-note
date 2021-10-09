@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navBar v-if="userId" />
+    <navBar v-if="showNavBar" />
     <router-view/>
     <modal v-if="showModal"></modal>
   </div>
@@ -17,7 +17,7 @@ export default {
     modal
   },
   computed:{
-    ...mapGetters(["userId","showModal"])
+    ...mapGetters(["showNavBar","showModal"])
   }
 }
 </script>

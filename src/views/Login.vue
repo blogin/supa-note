@@ -13,7 +13,7 @@
         class="inp"
       ></el-input>
       <div class="btn-group">
-        <el-button :loading="false" @click="logInCheck({email, pass})">LogIn</el-button>
+        <el-button :loading="btnLoading" @click="check()">LogIn</el-button>
         <el-button type="info">Register</el-button>
       </div>
     </div>
@@ -21,19 +21,32 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
-  data(){
-    return{
-      email:"",
-      pass:""
-    }
+  data() {
+    return {
+      email: "",
+      pass: "",
+    };
   },
-  methods:{
-    ...mapActions(["logInCheck"])
-  }
-}
+  watch: {
+    userId() {
+      this.getListOfNotes(this.userId);
+    },
+  },
+  computed: {
+    ...mapGetters(["btnLoading", "userId"]),
+  },
+  methods: {
+    ...mapActions(["logInCheck", "getListOfNotes"]),
+    ...mapMutations(["setBtnLoading"]),
+    check() {
+      this.setBtnLoading(true)
+      this.logInCheck({ email: this.email, pass: this.pass });
+    },
+  },
+};
 </script>
 
 <style scoped>

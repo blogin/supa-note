@@ -1,17 +1,20 @@
 <template>
   <div class="home">
-    <note :noteList="chunckNote.list" />
+    <note :noteList="listOfNotes" />
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import note from "../components/Note.vue"
 export default {
   name: 'Home',
   computed:{
-    ...mapGetters(["userId"])
+    ...mapGetters(["listOfNotes"])
   },
+  // methods:{
+  //   ...mapActions(["getListOfNotes"])
+  // },
   data(){
     return {
       chunckNote:{
@@ -47,7 +50,7 @@ export default {
   },
   components:{
     note
-  }
+  },
 }
 </script>
 

@@ -15,47 +15,6 @@
       <el-menu-item index="LogOut">Выйти</el-menu-item>
     </el-menu>
 
-    <!-- Форма добавления новой заметки -->
-    <!-- <el-dialog
-      title="Новая заметка"
-      :visible.sync="dialogFormVisible"
-      width="30%"
-     
-    >
-      <el-form :model="form" class="form" :style="{backgroundColor: newBgColor}" >
-        <input type="text" placeholder="Заголовок" v-model="title"  />
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="17"
-          placeholder="Заметка"
-          v-model="text"
-        ></textarea>
-        <div class="params">
-          <el-popover placement="top" width="175" v-model="visible">
-            <p>Выберите цвет</p>
-            <div class="grid-color">
-              <div v-for="(c,i) in predefineColors" :key="i">
-                <div class="example-color" :style="{ backgroundColor:c }" @click="changeBgColor(c)"></div>
-              </div>
-            </div>
-            <img
-              src="../assets/colors1.png"
-              alt=""
-              slot="reference"
-              style="cursor:pointer;"
-            />
-          </el-popover>
-        </div>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Отмена</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"
-          >Сохранить</el-button
-        >
-      </span>
-    </el-dialog> -->
   </div>
 </template>
 
@@ -89,7 +48,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setUserId", "setShowModal"]),
+    ...mapMutations(["setUserId", "setShowModal", "setShowNavBar"]),
     changeBgColor(color){
       this.newBgColor = color
     },
@@ -107,6 +66,7 @@ export default {
               duration: 2000,
             });
             this.setUserId(null);
+            this.setShowNavBar(false)
             this.$router.push("/");
           })
           .catch((error) => {
