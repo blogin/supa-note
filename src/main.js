@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { initializeApp } from "firebase/app";
+import firebase from 'firebase/app';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -20,7 +20,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 Vue.config.productionTip = false
 

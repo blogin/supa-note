@@ -1,14 +1,29 @@
-export default{
-    state:{
+import firebase from "firebase";
 
-    },
-    getters:{
+export default {
+  state: {
 
-    },
-    mutations:{
+  },
+  getters: {
 
-    },
-    actions:{
-        
-    }
+  },
+  mutations: {
+
+  },
+  actions: {
+    async logInCheck ({commit}, payload) {      
+      const user =  await firebase
+        .auth()
+        .signInWithEmailAndPassword(payload.email, payload.pass)
+        .then(() => {
+          alert('Successfully logged in');
+          // this.$router.push('/home');
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+      }
+
+    
+  }
 }
