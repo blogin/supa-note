@@ -63,6 +63,29 @@ export default {
           }))
           commit("setBtnLoading", false)
         })
+    },
+    async putListOfNotes ({commit}, payload){
+      debugger
+      await Axios.put(`${payload.user}.json`,payload.list)
+        .then(resp => {
+          Message(({
+            dangerouslyUseHTMLString: true,
+            message: `<span style="font-size:17px;">Заметка успешно добавлена</span>`,
+            type: 'success',
+            showClose: true,
+            duration: 2000
+          }))
+          console.log(resp.data)
+        })
+        .catch(error => {
+          Message(({
+            dangerouslyUseHTMLString: true,
+            message: `<span style="font-size:17px;">${error.message}</span>`,
+            type: 'error',
+            showClose: true,
+            duration: 4000
+          }))
+        })
     }
   }
 }

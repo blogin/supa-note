@@ -9,7 +9,7 @@
             : null
         "
       >
-        <div class="modal-container" :style="{background: newBgColor}">
+        <div class="modal-container" :style="{ background: newBgColor }">
           <div class="form">
             <input type="text" placeholder="Заголовок" v-model="title" />
             <textarea
@@ -29,16 +29,14 @@
                       class="example-color"
                       :style="{ backgroundColor: c }"
                       @click="newBgColor = c"
-                      :class="{bordered: i == 0}"
+                      :class="{ bordered: i == 0 }"
                     ></div>
                   </div>
                 </div>
                 <img src="../assets/colors1.png" alt="" slot="reference" />
               </el-popover>
               <el-button @click="setShowModal(false)">Отмена</el-button>
-              <el-button type="primary" @click="setShowModal(false)"
-                >Сохранить</el-button
-              >
+              <el-button type="primary" @click="add()">Сохранить</el-button>
             </div>
           </div>
         </div>
@@ -48,40 +46,54 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "modal",
   methods: {
-    ...mapMutations(["setShowModal"]),
+    ...mapMutations(["setShowModal", "setListOfNotes"]),
+    ...mapActions(["putListOfNotes"]),
+    add() {
+      this.setShowModal(false);
+      const id = "_" + Math.random().toString(36).substr(2, 9);
+      this.listOfNotes.push({
+        title: this.title,
+        text: this.text,
+        pin: false,
+        checkbox: false,
+        color: this.newBgColor,
+        id: id,
+      });
+      this.putListOfNotes({user: this.userId, list: this.listOfNotes})
+    },
   },
   computed: {
-    ...mapGetters(["predefineColors"]),
+    ...mapGetters(["predefineColors", "listOfNotes", "userId"]),
   },
   data() {
     return {
       visible: false,
       title: "",
       text: "",
-      newBgColor:"#fff",
+      newBgColor: "#fff",
     };
   },
 };
 </script>
 
 <style scoped>
-.bordered{
-  border:1px solid lightgrey;
+.bordered {
+  border: 1px solid lightgrey;
   width: 23px !important;
   height: 23px !important;
 }
-.grid-color{
+.grid-color {
   max-width: 50px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 5px;
 }
-.example-color{
+.example-color {
   width: 25px;
   height: 25px;
   border-radius: 5px;

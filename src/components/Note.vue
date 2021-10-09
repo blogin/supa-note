@@ -49,6 +49,7 @@ export default {
   border: 1px solid lightgrey;
   border-radius: 5px;
   max-width: 200px;
+  max-height: 200px;
   word-wrap: break-word;
   cursor: pointer;
 }
