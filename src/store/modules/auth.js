@@ -14,7 +14,6 @@ export default {
   mutations: {
     setUserId(state, payload){
       state.userId = payload
-      console.log(state.userId)
     }
   },
   actions: {

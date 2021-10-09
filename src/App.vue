@@ -2,19 +2,22 @@
   <div id="app">
     <navBar v-if="userId" />
     <router-view/>
+    <modal v-if="showModal"></modal>
   </div>
 </template>
 
 <script>
 import navBar from "./components/NavBar.vue"
+import modal from "@/components/Modal.vue";
 import { mapGetters } from 'vuex'
 
 export default {
   components:{
     navBar,
+    modal
   },
   computed:{
-    ...mapGetters(["userId"])
+    ...mapGetters(["userId","showModal"])
   }
 }
 </script>

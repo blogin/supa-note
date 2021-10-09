@@ -1,19 +1,12 @@
 <template>
   <div class="home">
-    <div v-for="(n,i) in chunckNote.list" :key="i" class="note">
-      <span>{{n.title}}</span>
-      <hr>
-      <span>{{n.text}}</span>
-      <hr>
-      <span>{{n.color}} </span>
-      <span>{{n.pin}} </span>
-      <span>{{n.checkbox}} </span>
-    </div>
+    <note :noteList="chunckNote.list" />
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import note from "../components/Note.vue"
 export default {
   name: 'Home',
   computed:{
@@ -27,27 +20,33 @@ export default {
           {
             title: "adasd",
             text: "asddsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-            pin: false,
+            pin: true,
             color: 'red',
-            checkbox: false
+            checkbox: false,
+            id: "1"
           },
           {
             title: "123",
             text: "11111111111111111111111",
             pin: false,
             color: 'red',
-            checkbox: false
+            checkbox: false,
+            id: "2"
           },
           {
             title: "ewq",
             text: "qweqweqweqweqwe",
             pin: false,
             color: 'red',
-            checkbox: false
+            checkbox: false,
+            id: "3"
           }
         ]
       }
     }
+  },
+  components:{
+    note
   }
 }
 </script>
