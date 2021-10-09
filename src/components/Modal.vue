@@ -9,50 +9,32 @@
             : null
         "
       >
-        <div class="modal-container">
+        <div class="modal-container" :style="{background: newBgColor}">
           <div class="form">
             <input type="text" placeholder="Заголовок" v-model="title" />
             <textarea
               name=""
               id=""
               cols="30"
-              rows="10"
+              rows="15"
               placeholder="Заметка"
               v-model="text"
             ></textarea>
-            <div class="params">
-              <!-- <el-popover placement="top" width="160" v-model="visible" class="vis-pop">
-                <p>Are you sure to delete this?</p>
-                <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="visible = false"
-                    >cancel</el-button
-                  >
-                  <el-button type="primary" size="mini" @click="visible = false"
-                    >confirm</el-button
-                  >
-                </div>
-                <el-button slot="reference">Delete</el-button>
-              </el-popover> -->
-              <el-popover placement="top" width="175" v-model="visible" class="vis-pop">
-                <p>Выберите цвет</p>
+            <div>
+              <el-popover placement="top" width="175" v-model="visible">
+                <p>Выберите цвет заметки</p>
                 <div class="grid-color">
                   <div v-for="(c, i) in predefineColors" :key="i">
                     <div
                       class="example-color"
                       :style="{ backgroundColor: c }"
+                      @click="newBgColor = c"
+                      :class="{bordered: i == 0}"
                     ></div>
                   </div>
                 </div>
-                <img
-                  src="@/assets/colors1.png"
-                  alt=""
-                  slot="reference"
-                  style="cursor:pointer;"
-                  @click="visible = true"
-                />
+                <img src="../assets/colors1.png" alt="" slot="reference" />
               </el-popover>
-            </div>
-            <div>
               <el-button @click="setShowModal(false)">Отмена</el-button>
               <el-button type="primary" @click="setShowModal(false)"
                 >Сохранить</el-button
@@ -74,30 +56,36 @@ export default {
     ...mapMutations(["setShowModal"]),
   },
   computed: {
-    ...mapGetters(["list"]),
+    ...mapGetters(["predefineColors"]),
   },
   data() {
     return {
       visible: false,
       title: "",
       text: "",
-      predefineColors: [
-        "#fff",
-        "#ff4500",
-        "#ff8c00",
-        "#ffd700",
-        "#90ee90",
-        "#00ced1",
-        "#1e90ff",
-      ],
+      newBgColor:"#fff",
     };
   },
 };
 </script>
 
 <style scoped>
-.vis-pop{
-  z-index: 9003;
+.bordered{
+  border:1px solid lightgrey;
+  width: 23px !important;
+  height: 23px !important;
+}
+.grid-color{
+  max-width: 50px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 5px;
+}
+.example-color{
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .form {
   display: grid;
@@ -112,6 +100,7 @@ export default {
   margin: 5px;
   background: transparent;
   height: 30px;
+  font-size: 15px;
 }
 .form textarea {
   border: none;
@@ -120,6 +109,7 @@ export default {
   resize: none;
   margin: 5px;
   background: transparent;
+  font-size: 15px;
 }
 
 .modal-mask {
@@ -146,8 +136,8 @@ export default {
   background-color: #fff;
   display: inline-block;
   /* position: relative; */
-  width: 700px;
-  height: 400px;
+  min-width: 700px;
+  min-height: 420px;
   max-width: 90%;
   max-height: 95vh;
   overflow: auto;

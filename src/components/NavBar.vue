@@ -16,7 +16,7 @@
     </el-menu>
 
     <!-- Форма добавления новой заметки -->
-    <el-dialog
+    <!-- <el-dialog
       title="Новая заметка"
       :visible.sync="dialogFormVisible"
       width="30%"
@@ -55,7 +55,7 @@
           >Сохранить</el-button
         >
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
