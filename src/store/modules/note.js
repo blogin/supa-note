@@ -68,6 +68,7 @@ export default {
       debugger
       await Axios.put(`${payload.user}.json`,payload.list)
         .then(resp => {
+          debugger
           Message(({
             dangerouslyUseHTMLString: true,
             message: `<span style="font-size:17px;">Заметка успешно добавлена</span>`,

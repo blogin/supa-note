@@ -35,6 +35,7 @@
       ...mapGetters(["listOfNotes"])
     },
     methods: {
+      
       /**
        * I am mocking a API call that load 20 objects at a time.
        */
