@@ -11,9 +11,10 @@
         v-model="pass"
         show-password
         class="inp"
+        @keyup.enter="check()"
       ></el-input>
       <div class="btn-group">
-        <el-button :loading="btnLoading" @click="check()">LogIn</el-button>
+        <el-button :loading="btnLoading" @click="check()" >LogIn</el-button>
         <el-button type="info" @click="register()" :loading="btnLoadingReg">Register</el-button>
       </div>
     </div>

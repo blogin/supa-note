@@ -6,6 +6,9 @@ import firebase from 'firebase/app';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/checkbox.css'
+import MasonryWall from '@yeger/vue2-masonry-wall'
+
+Vue.use(MasonryWall)
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries

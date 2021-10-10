@@ -1,47 +1,47 @@
 <template>
   <div>
-    <div class="pinned">
+   
+    <div class="pinned" v-if="pinned.length">
       <p class="head">Закрепленные</p>
-      <vue-masonry-wall
-        :items="pinned"
-        :options="{ width: 300, padding: 5 }"
-        v-if="listOfNotes"
-      >
-        <template v-slot:default="{ item }">
+      <masonry-wall :items="pinned" :column-width="250" :gap="10">
+        <template #default="{ item }">
           <div class="item" :style="{background: item.color}">
-            <h5>{{ item.title }}</h5>
-            <p>{{ item.text }}</p>
+            <div class="close" @click="del(item.id)">X</div>
+            <h1>{{ item.title }}</h1>
+            <span>{{ item.text }}</span>
           </div>
         </template>
-      </vue-masonry-wall>
-    </div>
-    <div class="others">
-      <p class="head">Другие</p>
-      <vue-masonry-wall
-        :items="others"
-        :options="{ width: 300, padding: 5 }"
-        v-if="listOfNotes"
-      >
-        <template v-slot:default="{ item }" >
+      </masonry-wall>
+    </div> 
+    <div class="others">      
+      <p class="head" v-if="pinned.length">Другие</p>
+      <masonry-wall :items="others" :column-width="250" :gap="10">
+        <template #default="{ item }">
           <div class="item" :style="{background: item.color}">
-            <h5>{{ item.title }}</h5>
-            <p>{{ item.text }}</p>
+            <div class="close" @click="del(item.id)">X</div>
+            <h1>{{ item.title }}</h1>
+            <span>{{ item.text }}</span>
           </div>
         </template>
-      </vue-masonry-wall>
-    </div>
+      </masonry-wall>
+    </div>    
   </div>
 </template>
 
 <script>
-import VueMasonryWall from "vue-masonry-wall";
+// import VueMasonryWall from "vue-masonry-wall";
 import { mapGetters } from "vuex";
 
 export default {
   name: "app",
-  components: { VueMasonryWall },
+  components: {},
   data() {
-    return {};
+    return {
+      items: [
+        { title: 'First', description: 'The first item.' },
+        { title: 'Second', description: 'The second item.' },
+      ]
+    };
   },
   computed: {
     ...mapGetters(["listOfNotes"]),
@@ -53,6 +53,11 @@ export default {
     },
   },
   methods: {
+    del(id) {
+      this.$delete(this.listOfNotes, this.listOfNotes.findIndex(e => e.id == id));
+
+      // this.listOfNotes = this.listOfNotes.filter(e => e.id !== id)
+    },
     /**
      * I am mocking a API call that load 20 objects at a time.
      */
@@ -65,23 +70,37 @@ export default {
 };
 </script>
 <style scoped>
-.others{
+.others {
   text-align: left;
 }
-.pinned{
+.pinned {
   border-bottom: 1px dashed lightgrey;
   text-align: left;
+  padding-bottom: 20px;
 }
-.pinned p.head, .others p.head{
-  color:#9c9c9c;
+.pinned p.head,
+.others p.head {
+  color: #9c9c9c;
 }
-.pinned div.item{
-  border:1px dotted #5298d1c0;
+.pinned div.item {
+  border: 1px dotted #5298d1c0;
 }
 .item {
   text-align: left;
   padding: 10px;
   border: 1px solid lightgrey;
   border-radius: 5px;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: 1px solid lightgrey;
+  border-radius: 50%;
+  width: 18px;
+  text-align: center;
+  padding: 1px;
+  cursor: pointer;
 }
 </style>

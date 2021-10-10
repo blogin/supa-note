@@ -6,11 +6,14 @@
       mode="horizontal"
       @select="handleSelect"
     >
+      <el-menu-item index="Home">
+        <router-link to="/home" class="dropdown-item outline">Главная</router-link>
+      </el-menu-item>
       <el-menu-item index="addNote" @click="setShowModal(true)"
         >Добавить заметку</el-menu-item
       >
-      <el-menu-item index="2">
-        <router-link to="/archive" class="dropdown-item">Архив</router-link>
+      <el-menu-item index="Arch">
+        <router-link to="/archive" class="dropdown-item outline">Архив</router-link>
       </el-menu-item>
       <el-menu-item index="LogOut">Выйти</el-menu-item>
     </el-menu>
@@ -26,25 +29,6 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      visible: false,
-      dialogFormVisible: false,
-      form: {
-        title: "",
-        text: "",
-        pin: false,
-        color: "red",
-      },
-      newBgColor: "#fff",
-      formLabelWidth: "120px",
-      predefineColors: [
-        "#fff",
-        "#ff4500",
-        "#ff8c00",
-        "#ffd700",
-        "#90ee90",
-        "#00ced1",
-        "#1e90ff",
-      ],
     };
   },
   methods: {
@@ -87,6 +71,9 @@ export default {
 </script>
 
 <style scoped>
+.outline{
+  text-decoration: none;
+}
 .grid-color{
   max-width: 50px;
   display: grid;
