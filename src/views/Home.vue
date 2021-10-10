@@ -8,7 +8,7 @@
         v-if="listOfNotes"
       >
         <template v-slot:default="{ item }">
-          <div class="item">
+          <div class="item" :style="{background: item.color}">
             <h5>{{ item.title }}</h5>
             <p>{{ item.text }}</p>
           </div>
@@ -22,8 +22,8 @@
         :options="{ width: 300, padding: 5 }"
         v-if="listOfNotes"
       >
-        <template v-slot:default="{ item }">
-          <div class="item">
+        <template v-slot:default="{ item }" >
+          <div class="item" :style="{background: item.color}">
             <h5>{{ item.title }}</h5>
             <p>{{ item.text }}</p>
           </div>
@@ -76,7 +76,7 @@ export default {
   color:#9c9c9c;
 }
 .pinned div.item{
-  border:1px solid red;
+  border:1px dotted #5298d1c0;
 }
 .item {
   text-align: left;
