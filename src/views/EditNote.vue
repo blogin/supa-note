@@ -101,7 +101,7 @@ export default {
   computed: {
     ...mapGetters(["listOfNotes", "predefineColors", "initCopyListOfNotes"]),
     item() {
-      debugger;
+      
       let i = this.listOfNotes.filter((e) => e.id == this.id)[0];
       console.log(typeof i)
       this.initState = this.initCopyListOfNotes.filter((e) => e.id == this.id)[0];
