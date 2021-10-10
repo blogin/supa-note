@@ -15,6 +15,7 @@ export default {
       "#F9E79F",
     ],
     listOfNotes: [], 
+    initCopyListOfNotes: [], 
     btnLoading: false, 
     btnLoadingReg: false, 
     showNavBar: false
@@ -25,6 +26,9 @@ export default {
     },
     listOfNotes(state) {
       return state.listOfNotes
+    },
+    initCopyListOfNotes(state) {
+      return state.initCopyListOfNotes
     },
     btnLoading(state) {
       return state.btnLoading
@@ -39,6 +43,10 @@ export default {
   mutations:{
     setListOfNotes(state,payload){
       state.listOfNotes = payload
+      state.initCopyListOfNotes = payload
+    },
+    setInitListOfNotes(state,payload){
+      state.initCopyListOfNotes = payload
     },
     setBtnLoading(state,payload){
       state.btnLoading = payload
@@ -56,6 +64,7 @@ export default {
         .then(resp => {
           debugger
           resp.data ? commit("setListOfNotes", resp.data) : null;
+          resp.data ? commit("setInitListOfNotes", resp.data) : null;
           commit("setBtnLoading", false)
           commit("setBtnLoadingReg", false)
           commit("setShowNavBar", true)

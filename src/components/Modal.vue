@@ -103,7 +103,7 @@ export default {
         color: this.newBgColor,
         id: id,
         archive: false,
-        inListView: []
+        
       });
       this.putListOfNotes({ user: this.userId, list: this.listOfNotes });
     },
@@ -126,7 +126,8 @@ export default {
       newBgColor: "#fff",
       pinned: false,
       checkboxed: false,
-      checkedList: []
+      checkedList: [],
+      inListView: []
     };
   },
 };

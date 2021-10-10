@@ -25,11 +25,6 @@ const routes = [{
     component: Login
   },
   {
-    path: '/',
-    name: 'Login',
-    component: Login
-  },
-  {
     path: '/archive',
     name: 'Archive',
     component: Archive,
@@ -41,6 +36,7 @@ const routes = [{
     path: '/edit/:id',
     name: 'Edit',
     component: Edit,
+    props: true,
     meta: {
       authReq: true
     }
