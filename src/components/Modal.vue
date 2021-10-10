@@ -12,14 +12,23 @@
         <div class="modal-container" :style="{ background: newBgColor }">
           <div class="form">
             <input type="text" placeholder="Заголовок" v-model="title" />
-            <textarea
-              name=""
-              id=""
-              cols="30"
-              rows="15"
-              placeholder="Заметка"
-              v-model="text"
-            ></textarea>
+            <div class="form-cont">
+              <textarea
+                name=""
+                id=""
+                cols="30"
+                rows="15"
+                placeholder="Заметка"
+                v-model="text"
+                v-if="checkboxed === false"
+              ></textarea>
+              <div v-if="checkboxed && inListView">
+                <div class="checkbox" v-for="(l,i) in inListView" :key="i">
+                  <input class="custom-checkbox" type="checkbox" :value="`${l}_${i}`" :id="`${l}_${i}`" v-model="checkedList">
+                  <label :for="`${l}_${i}`">{{l}}</label>
+                </div>
+              </div>
+            </div>
             <div class="form-footer-cont">
               <div class="form-footer">
                 <el-popover placement="top" width="175" v-model="visible">
@@ -34,14 +43,36 @@
                       ></div>
                     </div>
                   </div>
-                  <img src="../assets/c2.png" width="35" height="35" slot="reference" title="Цвет заметки" />
+                  <img
+                    src="../assets/c2.png"
+                    width="35"
+                    height="35"
+                    slot="reference"
+                    title="Цвет заметки"
+                  />
                 </el-popover>
-                <i :class="{'el-icon-bottom-left':pinned, 'el-icon-top-right':!pinned}" style="font-size:37px;" @click="pinned = !pinned" title="Закрепить"></i>
-                <i :class="{'el-icon-document':checkboxed, 'el-icon-tickets':!checkboxed}" style="font-size:37px;" @click="checkboxed = !checkboxed" title="В виде списка"></i>
+                <i
+                  :class="{
+                    'el-icon-bottom-left': pinned,
+                    'el-icon-top-right': !pinned,
+                  }"
+                  style="font-size:37px;"
+                  @click="pinned = !pinned"
+                  title="Закрепить"
+                ></i>
+                <i
+                  :class="{
+                    'el-icon-document': checkboxed,
+                    'el-icon-tickets': !checkboxed,
+                  }"
+                  style="font-size:37px;"
+                  @click="checkboxed = !checkboxed"
+                  title="В виде списка"
+                ></i>
                 <el-button @click="setShowModal(false)">Отмена</el-button>
                 <el-button type="primary" @click="add()">Сохранить</el-button>
               </div>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
@@ -59,7 +90,11 @@ export default {
     ...mapActions(["putListOfNotes"]),
     add() {
       this.setShowModal(false);
-      const id = "_" + Math.random().toString(36).substr(2, 9);
+      const id =
+        "_" +
+        Math.random()
+          .toString(36)
+          .substr(2, 9);
       this.listOfNotes.push({
         title: this.title,
         text: this.text,
@@ -67,9 +102,18 @@ export default {
         checkbox: this.checkboxed,
         color: this.newBgColor,
         id: id,
+        archive: false,
+        inListView: []
       });
-      this.putListOfNotes({user: this.userId, list: this.listOfNotes})
+      this.putListOfNotes({ user: this.userId, list: this.listOfNotes });
     },
+  },
+  watch:{
+    checkboxed(){
+      if(this.checkboxed){
+        this.inListView = this.text.split("\n")
+      }
+    }
   },
   computed: {
     ...mapGetters(["predefineColors", "listOfNotes", "userId"]),
@@ -81,14 +125,23 @@ export default {
       text: "",
       newBgColor: "#fff",
       pinned: false,
-      checkboxed: false
+      checkboxed: false,
+      checkedList: []
     };
   },
 };
 </script>
 
 <style scoped>
-.form-footer{
+@import '../assets/checkbox.css';
+
+.form-cont{
+  text-align: left;
+  /* border:1px solid red; */
+  height: 290px;
+  width: 100%;
+}
+.form-footer {
   width: 98%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -134,6 +187,7 @@ export default {
   margin: 5px;
   background: transparent;
   font-size: 15px;
+  width: 98%;
 }
 
 .modal-mask {
