@@ -20,24 +20,28 @@
               placeholder="Заметка"
               v-model="text"
             ></textarea>
-            <div>
-              <el-popover placement="top" width="175" v-model="visible">
-                <p>Выберите цвет заметки</p>
-                <div class="grid-color">
-                  <div v-for="(c, i) in predefineColors" :key="i">
-                    <div
-                      class="example-color"
-                      :style="{ backgroundColor: c }"
-                      @click="newBgColor = c"
-                      :class="{ bordered: i == 0 }"
-                    ></div>
+            <div class="form-footer-cont">
+              <div class="form-footer">
+                <el-popover placement="top" width="175" v-model="visible">
+                  <p>Выберите цвет заметки</p>
+                  <div class="grid-color">
+                    <div v-for="(c, i) in predefineColors" :key="i">
+                      <div
+                        class="example-color"
+                        :style="{ backgroundColor: c }"
+                        @click="newBgColor = c"
+                        :class="{ bordered: i == 0 }"
+                      ></div>
+                    </div>
                   </div>
-                </div>
-                <img src="../assets/colors1.png" alt="" slot="reference" />
-              </el-popover>
-              <el-button @click="setShowModal(false)">Отмена</el-button>
-              <el-button type="primary" @click="add()">Сохранить</el-button>
-            </div>
+                  <img src="../assets/c2.png" width="35" height="35" slot="reference" title="Цвет заметки" />
+                </el-popover>
+                <i :class="{'el-icon-bottom-left':pinned, 'el-icon-top-right':!pinned}" style="font-size:37px;" @click="pinned = !pinned" title="Закрепить"></i>
+                <i :class="{'el-icon-document':checkboxed, 'el-icon-tickets':!checkboxed}" style="font-size:37px;" @click="checkboxed = !checkboxed" title="В виде списка"></i>
+                <el-button @click="setShowModal(false)">Отмена</el-button>
+                <el-button type="primary" @click="add()">Сохранить</el-button>
+              </div>
+            </div>            
           </div>
         </div>
       </div>
@@ -59,8 +63,8 @@ export default {
       this.listOfNotes.push({
         title: this.title,
         text: this.text,
-        pin: false,
-        checkbox: false,
+        pin: this.pinned,
+        checkbox: this.checkboxed,
         color: this.newBgColor,
         id: id,
       });
@@ -76,12 +80,20 @@ export default {
       title: "",
       text: "",
       newBgColor: "#fff",
+      pinned: false,
+      checkboxed: false
     };
   },
 };
 </script>
 
 <style scoped>
+.form-footer{
+  width: 98%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+}
 .bordered {
   border: 1px solid lightgrey;
   width: 23px !important;
