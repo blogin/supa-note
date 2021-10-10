@@ -14,8 +14,9 @@ export default {
       "#A3E4D7",
       "#F9E79F",
     ],
-    listOfNotes: null, 
+    listOfNotes: [], 
     btnLoading: false, 
+    btnLoadingReg: false, 
     showNavBar: false
   },
   getters: {
@@ -28,6 +29,9 @@ export default {
     btnLoading(state) {
       return state.btnLoading
     },
+    btnLoadingReg(state) {
+      return state.btnLoadingReg
+    },
     showNavBar(state) {
       return state.showNavBar
     },
@@ -39,6 +43,9 @@ export default {
     setBtnLoading(state,payload){
       state.btnLoading = payload
     },
+    setBtnLoadingReg(state,payload){
+      state.btnLoadingReg = payload
+    },
     setShowNavBar(state,payload){
       state.showNavBar = payload
     },
@@ -48,8 +55,9 @@ export default {
       await Axios.get(`${payload}.json`)
         .then(resp => {
           debugger
-          commit("setListOfNotes", resp.data)
+          resp.data ? commit("setListOfNotes", resp.data) : null;
           commit("setBtnLoading", false)
+          commit("setBtnLoadingReg", false)
           commit("setShowNavBar", true)
           router.push("/home")
         })
@@ -68,7 +76,7 @@ export default {
       debugger
       await Axios.put(`${payload.user}.json`,payload.list)
         .then(resp => {
-          debugger
+          
           Message(({
             dangerouslyUseHTMLString: true,
             message: `<span style="font-size:17px;">Заметка успешно добавлена</span>`,

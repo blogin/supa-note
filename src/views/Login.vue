@@ -14,7 +14,7 @@
       ></el-input>
       <div class="btn-group">
         <el-button :loading="btnLoading" @click="check()">LogIn</el-button>
-        <el-button type="info">Register</el-button>
+        <el-button type="info" @click="register()" :loading="btnLoadingReg">Register</el-button>
       </div>
     </div>
   </div>
@@ -36,14 +36,18 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["btnLoading", "userId"]),
+    ...mapGetters(["btnLoading", "userId", "btnLoadingReg"]),
   },
   methods: {
-    ...mapActions(["logInCheck", "getListOfNotes"]),
-    ...mapMutations(["setBtnLoading"]),
+    ...mapActions(["logInCheck", "getListOfNotes", "RegisterUser"]),
+    ...mapMutations(["setBtnLoading", "setBtnLoadingReg"]),
     check() {
       this.setBtnLoading(true)
       this.logInCheck({ email: this.email, pass: this.pass });
+    },
+    register() {
+      this.setBtnLoadingReg(true)
+      this.RegisterUser({ email: this.email, pass: this.pass });
     },
   },
 };

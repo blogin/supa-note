@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <vue-masonry-wall :items="listOfNotes" :options="{width: 300, padding: 5}" >
+    <vue-masonry-wall :items="listOfNotes" :options="{width: 300, padding: 5}" v-if="listOfNotes">
       <template v-slot:default="{item}">
         <div class="item">
           <h5>{{item.title}}</h5>
