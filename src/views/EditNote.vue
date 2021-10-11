@@ -1,9 +1,13 @@
 <template>
   <div>
-    {{nPin}}
+    
+    pin - {{nPin}}
+    ch - {{nCheckbox}}
     <div class="item" :style="{ background: newColor }">
       <div class="close" @click="del(item.id)">X</div>
       <input type="text" v-model="nTitle" />
+
+      <!-- Если поле nCheckbox false, то показывать textbox, если true, то показывать список checkbox'ов -->
       <textarea
         name=""
         id=""
@@ -13,7 +17,8 @@
         v-model="nText"
         v-if="!nCheckbox"
       ></textarea>
-      <div v-if="item.checkbox">
+       
+      <div v-if="nCheckbox && inListView">
         <div class="checkbox" v-for="(l, i) in inListView" :key="i">
           <input
             class="custom-checkbox"
@@ -24,7 +29,10 @@
           />
           <label :for="`${l}_${i}`">{{ l }}</label>
         </div>
-      </div>
+      </div> 
+      <!--  -->
+
+      <!-- Параметры и кнопки -->
       <div class="form-footer-cont">
         <div class="form-footer">
           <el-popover placement="top" width="175" v-model="visible">
@@ -92,37 +100,26 @@ export default {
       nPin: null,
     };
   },
+  mounted(){
+    let item = this.listOfNotes.filter((e) => e.id == this.id)[0];
+    this.nTitle = item.title
+    this.nText = item.text
+    this.nCheckbox = item.checkbox
+    item.checkbox
+      ? (this.inListView = item.text.split("\n").filter(Boolean))
+      : null;
+    this.nPin = item.pin    
+  },
   watch:{
     nCheckbox(){
-      if(nCheckbox)
-        this.inListView = nCheckbox.split("\n").filter(Boolean)
+      this.nCheckbox ? this.inListView = this.nText.split("\n").filter(Boolean) : null;
     }
   },
   computed: {
     ...mapGetters(["listOfNotes", "predefineColors", "initCopyListOfNotes"]),
-    item() {
-      
-      let i = this.listOfNotes.filter((e) => e.id == this.id)[0];
-      console.log(typeof i)
-      this.initState = this.initCopyListOfNotes.filter((e) => e.id == this.id)[0];
-      i.checkbox
-        ? (this.inListView = i.text.split("\n").filter(Boolean))
-        : null;
-      this.nTitle = i.title
-      this.nText = i.text
-      this.newColor = i.color
-      this.nPin = i.pin
-      this.nCheckbox = i.checkbox
-      return i;
-    },
   },
   methods: {
-    getNewPin(){
-      debugger
-      this.nPin = !this.item.pin
-    },
     cancel(){
-      this.item = this.initState
       this.$router.push("/home")
     }
   },
