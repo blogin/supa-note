@@ -83,7 +83,7 @@ export default {
               message: `<span style="font-size:17px;">Заметка успешно добавлена</span>`,
               type: 'success',
               showClose: true,
-              duration: 2000
+              duration: 1000
             }))
           }
           if(payload.core == 'add-arch'){
@@ -92,7 +92,7 @@ export default {
               message: `<span style="font-size:17px;">Заметка успешно добавлена в Архив</span>`,
               type: 'success',
               showClose: true,
-              duration: 2000
+              duration: 1000
             }))
           }
           if(payload.core == 'del'){
@@ -101,7 +101,7 @@ export default {
               message: `<span style="font-size:17px;">Заметка успешно удалена</span>`,
               type: 'success',
               showClose: true,
-              duration: 2000
+              duration: 1000
             }))
           }
           if(payload.core == 'save'){
@@ -110,7 +110,7 @@ export default {
               message: `<span style="font-size:17px;">Заметка успешно сохранена</span>`,
               type: 'success',
               showClose: true,
-              duration: 2000
+              duration: 1000
             }))
           }
           console.log(resp.data)

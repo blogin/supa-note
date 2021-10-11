@@ -1,6 +1,6 @@
 <template>
   <div>    
-    в архиве {{nArchive}}
+    checkedList {{checkedList}}
     <div class="item" :style="{ background: newColor }">
       <div class="close" @click="del(id)">X</div>
       <input type="text" v-model="nTitle" />
@@ -102,13 +102,15 @@ export default {
       nPin: null,
       nArchive: null,
       initItem: null,
-      checkedList: null,
-      listView: []
+      checkedList: [],
+      listView: [],
+      strNote: ""
     };
   },
   mounted(){
     debugger
     this.initItem = this.listOfNotes.filter((e) => e.id == this.id)[0];
+    this.strNote = JSON.stringify(this.initItem)
     this.nTitle = this.initItem.title
     this.nText = this.initItem.text
     this.nCheckbox = this.initItem.checkbox
@@ -116,7 +118,7 @@ export default {
     this.nPin = this.initItem.pin 
     this.nArchive = this.initItem.archive   
     this.newColor = this.initItem.color   
-    this.checkedList = this.initItem.checkedList  
+    this.checkedList = this.initItem.checkedList ? this.initItem.checkedList : [] 
     // if(this.listView.length !== 0){
     //   this.listView = []
     //   this.text.split("\n").filter(Boolean).forEach((e,i) => {
@@ -127,7 +129,8 @@ export default {
   watch:{
     nCheckbox(){
       debugger
-      if(this.nCheckbox && this.listView.length == 0) // Разбиваем текст на переносы. Удаляем дубликаты. Перебираем каждый элемент и добавляем в this.inListView объект
+      if(this.nCheckbox) // Разбиваем текст на переносы. Удаляем дубликаты. Перебираем каждый элемент и добавляем в this.inListView объект
+        this.listView = []
         this.nText.split("\n").filter(Boolean).forEach((e,i) => {
           this.listView.push({name: e, value: `${this.id}_${e}_${i}`, checked: false})
         })
@@ -157,10 +160,10 @@ export default {
       this.initItem.archive = this.nArchive 
       this.initItem.checkedList = this.checkedList 
       this.initItem.listView = this.listView 
+      this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core:"save" });
       // this.listOfNotes.forEach((e,i) => {
       //   e.id = this.id ? this.listOfNotes[i] = this.initItem : null
       // });
-      // this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core:"save" });
       // if(this.nArchive)
       //   this.$message({
       //     dangerouslyUseHTMLString: true,
@@ -170,6 +173,7 @@ export default {
       //     duration: 2000
       //   })
       this.$router.go(-1) // Возврат на предыдущий роут
+      console.log("edit - this.initItem", this.initItem)
     }
   },
 };

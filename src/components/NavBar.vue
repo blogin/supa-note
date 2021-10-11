@@ -7,17 +7,29 @@
       @select="handleSelect"
     >
       <el-menu-item index="Home">
-        <router-link to="/home" class="dropdown-item outline">Главная</router-link>
+        <router-link to="/home" class="dropdown-item outline"
+          >Главная</router-link
+        >
       </el-menu-item>
       <el-menu-item index="addNote" @click="setShowModal(true)"
         >Добавить заметку</el-menu-item
       >
       <el-menu-item index="Arch">
-        <router-link to="/archive" class="dropdown-item outline">Архив</router-link>
+        <router-link to="/archive" class="dropdown-item outline"
+          >Архив</router-link
+        >
       </el-menu-item>
       <el-menu-item index="LogOut">Выйти</el-menu-item>
+      <el-menu-item index="search">
+        <div @keyup.enter="search()">
+          <el-input
+            placeholder="Поиск..."
+            v-model="search"
+            class="inp-search"
+          ></el-input>
+        </div>
+      </el-menu-item>
     </el-menu>
-
   </div>
 </template>
 
@@ -29,12 +41,18 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
+      search:""
     };
   },
   methods: {
-    ...mapMutations(["setUserId", "setShowModal", "setShowNavBar", "setListOfNotes"]),
-    changeBgColor(color){
-      this.newBgColor = color
+    ...mapMutations([
+      "setUserId",
+      "setShowModal",
+      "setShowNavBar",
+      "setListOfNotes",
+    ]),
+    changeBgColor(color) {
+      this.newBgColor = color;
     },
     handleSelect(key) {
       if (key == "LogOut") {
@@ -49,9 +67,9 @@ export default {
               showClose: true,
               duration: 2000,
             });
-            this.setListOfNotes([])
+            this.setListOfNotes([]);
             this.setUserId(null);
-            this.setShowNavBar(false)
+            this.setShowNavBar(false);
             this.$router.push("/");
           })
           .catch((error) => {
@@ -72,16 +90,20 @@ export default {
 </script>
 
 <style scoped>
-.outline{
+.inp-search{
+  margin-bottom:5px;
+  width: 250px;
+}
+.outline {
   text-decoration: none;
 }
-.grid-color{
+.grid-color {
   max-width: 50px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 5px;
 }
-.example-color{
+.example-color {
   width: 25px;
   height: 25px;
   border-radius: 5px;
