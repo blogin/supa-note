@@ -24,8 +24,8 @@
               ></textarea>
               <div v-if="checkboxed && inListView">
                 <div class="checkbox" v-for="(l,i) in inListView" :key="i">
-                  <input class="custom-checkbox" type="checkbox" :value="`${l}_${i}`" :id="`${l}_${i}`" v-model="checkedList">
-                  <label :for="`${l}_${i}`">{{l}}</label>
+                  <input class="custom-checkbox" type="checkbox" :value="l.value" :id="l.value" v-model="checkedList">
+                  <label :for="l.value">{{l.name}}</label>
                 </div>
               </div>
             </div>
@@ -99,19 +99,16 @@ export default {
     ...mapActions(["putListOfNotes"]),
     add() {
       this.setShowModal(false);
-      const id =
-        "_" +
-        Math.random()
-          .toString(36)
-          .substr(2, 9);
       this.listOfNotes.push({
         title: this.title,
         text: this.text,
         pin: this.pinned,
         checkbox: this.checkboxed,
         color: this.newBgColor,
-        id: id,
-        archive: this.archived        
+        id: this.id,
+        archive: this.archived,
+        listView: this.checkboxed ? this.inListView : [],
+        checkedList: this.checkedList      
       });
       this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core:this.archived ? "add-arch" : "add" });
     },
@@ -119,8 +116,12 @@ export default {
   watch:{
     checkboxed(){
       if(this.checkboxed){
-        this.inListView = this.text.split("\n")
+        // Разбиваем текст на переносы. Удаляем дубликаты. Перебираем каждый элемент и добавляем в this.inListView объект
+        this.text.split("\n").filter(Boolean).forEach((e,i) => {
+          this.inListView.push({name: e, value: `${this.id}_${e}_${i}`, checked: false})
+        })
       }
+      console.log("this.inListView", this.inListView)
     }
   },
   computed: {
@@ -136,7 +137,8 @@ export default {
       checkboxed: false,
       archived: false,
       checkedList: [],
-      inListView: []
+      inListView: [],
+      id: Math.random().toString(36).substr(2, 9)
     };
   },
 };

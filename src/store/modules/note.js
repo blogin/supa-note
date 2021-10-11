@@ -82,10 +82,8 @@ export default {
         })
     },
     async putListOfNotes ({commit}, payload){
-      debugger
       await Axios.put(`${payload.user}.json`,payload.list)
         .then(resp => {
-          debugger
           if(payload.core == 'add'){
             Message(({
               dangerouslyUseHTMLString: true,

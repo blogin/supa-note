@@ -15,7 +15,13 @@
             </div>
             <!--  -->
             <h1>{{ item.title }}</h1>
-            <span>{{ item.text }}</span>
+            <span v-if="!item.checkbox">{{ item.text }}</span>
+            <div v-else>
+              <div class="checkbox block" v-for="(l,i) in item.listView" :key="i" :class="{throuht:l.checked}" @click.stop > <!-- @click.stop - Костыль-заглушка, чтобы можно было ставить галочки и не переходить в режим редактирования-->
+                <input class="custom-checkbox" type="checkbox" :value="l.value" :id="l.value" v-model="item.checkedList">
+                <label :for="l.value">{{l.name}}</label>
+              </div>
+            </div>
           </div>
         </template>
       </masonry-wall>
@@ -49,16 +55,18 @@ export default {
 </script>
 
 <style scoped>
-.others {
-  text-align: left;
+.throuht{
+  text-decoration: line-through;
+}
+.block{
+  display: table;
 }
 .pinned {
   border-bottom: 1px dashed lightgrey;
   text-align: left;
   padding-bottom: 20px;
 }
-.pinned p.head,
-.others p.head {
+.pinned p.head {
   color: #9c9c9c;
 }
 .pinned div.item {

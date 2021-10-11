@@ -17,15 +17,9 @@
       ></textarea>
        
       <div v-if="nCheckbox && inListView">
-        <div class="checkbox" v-for="(l, i) in inListView" :key="i">
-          <input
-            class="custom-checkbox"
-            type="checkbox"
-            :value="`${l}_${i}`"
-            :id="`${l}_${i}`"
-            v-model="checkedList"
-          />
-          <label :for="`${l}_${i}`">{{ l }}</label>
+        <div class="checkbox" v-for="(l,i) in listView" :key="i">
+          <input class="custom-checkbox" type="checkbox" :value="l.value" :id="l.value" v-model="checkedList">
+          <label :for="l.value">{{l.name}}</label>
         </div>
       </div> 
       <!--  -->
@@ -107,7 +101,9 @@ export default {
       nCheckbox: null,
       nPin: null,
       nArchive: null,
-      initItem: null
+      initItem: null,
+      checkedList: null,
+      listView: []
     };
   },
   mounted(){
@@ -116,16 +112,25 @@ export default {
     this.nTitle = this.initItem.title
     this.nText = this.initItem.text
     this.nCheckbox = this.initItem.checkbox
-    this.initItem.checkbox
-      ? (this.inListView = this.initItem.text.split("\n").filter(Boolean))
-      : null;
+    this.listView = this.initItem.listView  
     this.nPin = this.initItem.pin 
     this.nArchive = this.initItem.archive   
     this.newColor = this.initItem.color   
+    this.checkedList = this.initItem.checkedList  
+    // if(this.listView.length !== 0){
+    //   this.listView = []
+    //   this.text.split("\n").filter(Boolean).forEach((e,i) => {
+    //     this.listView.push({name: e, value: `${this.id}_${e}_${i}`, checked: false})
+    //   })
+    // }       
   },
   watch:{
     nCheckbox(){
-      this.nCheckbox ? this.inListView = this.nText.split("\n").filter(Boolean) : null;
+      debugger
+      if(this.nCheckbox && this.listView.length == 0) // Разбиваем текст на переносы. Удаляем дубликаты. Перебираем каждый элемент и добавляем в this.inListView объект
+        this.nText.split("\n").filter(Boolean).forEach((e,i) => {
+          this.listView.push({name: e, value: `${this.id}_${e}_${i}`, checked: false})
+        })
     }
   },
   computed: {
@@ -149,6 +154,8 @@ export default {
       this.initItem.text = this.nText       
       this.initItem.checkbox = this.nCheckbox       
       this.initItem.archive = this.nArchive 
+      this.initItem.checkedList = this.checkedList 
+      this.initItem.listView = this.listView 
       if(this.nArchive)
         this.$message({
           dangerouslyUseHTMLString: true,
