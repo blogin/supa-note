@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   props: ["id"],
   data() {
@@ -134,9 +134,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["listOfNotes", "predefineColors", "initCopyListOfNotes"]),
+    ...mapGetters(["listOfNotes", "predefineColors", "userId"]),
   },
   methods: {
+    ...mapActions(["putListOfNotes"]),
     cancel(){
       this.$router.go(-1) // Возврат на предыдущий роут
     },
@@ -156,14 +157,18 @@ export default {
       this.initItem.archive = this.nArchive 
       this.initItem.checkedList = this.checkedList 
       this.initItem.listView = this.listView 
-      if(this.nArchive)
-        this.$message({
-          dangerouslyUseHTMLString: true,
-          message: `<span style="font-size:17px;">Заметка успешно перенесена в Архив</span>`,
-          type: 'success',
-          showClose: true,
-          duration: 2000
-        })
+      // this.listOfNotes.forEach((e,i) => {
+      //   e.id = this.id ? this.listOfNotes[i] = this.initItem : null
+      // });
+      // this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core:"save" });
+      // if(this.nArchive)
+      //   this.$message({
+      //     dangerouslyUseHTMLString: true,
+      //     message: `<span style="font-size:17px;">Заметка успешно перенесена в Архив</span>`,
+      //     type: 'success',
+      //     showClose: true,
+      //     duration: 2000
+      //   })
       this.$router.go(-1) // Возврат на предыдущий роут
     }
   },

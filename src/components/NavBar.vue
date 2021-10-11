@@ -32,7 +32,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setUserId", "setShowModal", "setShowNavBar"]),
+    ...mapMutations(["setUserId", "setShowModal", "setShowNavBar", "setListOfNotes"]),
     changeBgColor(color){
       this.newBgColor = color
     },
@@ -49,6 +49,7 @@ export default {
               showClose: true,
               duration: 2000,
             });
+            this.setListOfNotes([])
             this.setUserId(null);
             this.setShowNavBar(false)
             this.$router.push("/");

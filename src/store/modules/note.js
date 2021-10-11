@@ -15,7 +15,6 @@ export default {
       "#F9E79F",
     ],
     listOfNotes: [], 
-    initCopyListOfNotes: [], 
     btnLoading: false, 
     btnLoadingReg: false, 
     showNavBar: false
@@ -26,9 +25,6 @@ export default {
     },
     listOfNotes(state) {
       return state.listOfNotes
-    },
-    initCopyListOfNotes(state) {
-      return state.initCopyListOfNotes
     },
     btnLoading(state) {
       return state.btnLoading
@@ -43,9 +39,6 @@ export default {
   mutations:{
     setListOfNotes(state,payload){
       state.listOfNotes = payload
-      state.initCopyListOfNotes = payload
-    },
-    setInitListOfNotes(state,payload){
       state.initCopyListOfNotes = payload
     },
     setBtnLoading(state,payload){
@@ -64,7 +57,6 @@ export default {
         .then(resp => {
           debugger
           resp.data ? commit("setListOfNotes", resp.data) : null;
-          resp.data ? commit("setInitListOfNotes", resp.data) : null;
           commit("setBtnLoading", false)
           commit("setBtnLoadingReg", false)
           commit("setShowNavBar", true)
@@ -82,6 +74,7 @@ export default {
         })
     },
     async putListOfNotes ({commit}, payload){
+      debugger
       await Axios.put(`${payload.user}.json`,payload.list)
         .then(resp => {
           if(payload.core == 'add'){
@@ -106,6 +99,15 @@ export default {
             Message(({
               dangerouslyUseHTMLString: true,
               message: `<span style="font-size:17px;">Заметка успешно удалена</span>`,
+              type: 'success',
+              showClose: true,
+              duration: 2000
+            }))
+          }
+          if(payload.core == 'save'){
+            Message(({
+              dangerouslyUseHTMLString: true,
+              message: `<span style="font-size:17px;">Заметка успешно сохранена</span>`,
               type: 'success',
               showClose: true,
               duration: 2000
