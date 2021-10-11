@@ -85,14 +85,34 @@ export default {
       debugger
       await Axios.put(`${payload.user}.json`,payload.list)
         .then(resp => {
-          
-          Message(({
-            dangerouslyUseHTMLString: true,
-            message: `<span style="font-size:17px;">Заметка успешно добавлена</span>`,
-            type: 'success',
-            showClose: true,
-            duration: 2000
-          }))
+          debugger
+          if(payload.core == 'add'){
+            Message(({
+              dangerouslyUseHTMLString: true,
+              message: `<span style="font-size:17px;">Заметка успешно добавлена</span>`,
+              type: 'success',
+              showClose: true,
+              duration: 2000
+            }))
+          }
+          if(payload.core == 'add-arch'){
+            Message(({
+              dangerouslyUseHTMLString: true,
+              message: `<span style="font-size:17px;">Заметка успешно добавлена в Архив</span>`,
+              type: 'success',
+              showClose: true,
+              duration: 2000
+            }))
+          }
+          if(payload.core == 'del'){
+            Message(({
+              dangerouslyUseHTMLString: true,
+              message: `<span style="font-size:17px;">Заметка успешно удалена</span>`,
+              type: 'success',
+              showClose: true,
+              duration: 2000
+            }))
+          }
           console.log(resp.data)
         })
         .catch(error => {

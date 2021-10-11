@@ -10,7 +10,7 @@
             @click="edit(item.id)"
           >
             <!-- Удаление с прекращением всплытия (.stop ) -->
-            <div class="close" @click.stop="del(item.id)">X</div>
+            <div class="close" @click.stop="del(item.id)" title="Удалить">X</div>
             <!--  -->
             <h1>{{ item.title }}</h1>
             <span>{{ item.text }}</span>
@@ -19,10 +19,10 @@
       </masonry-wall>
     </div>
     <div class="others">
-      <p class="head" v-if="pinned.length">Другие</p>
+      <p class="head" v-if="others.length">Другие</p>
       <masonry-wall :items="others" :column-width="250" :gap="10">
         <template #default="{ item }">
-          <div class="item" :style="{ background: item.color }">
+          <div class="item" :style="{ background: item.color }" @click="edit(item.id)">
             <!-- Удаление с прекращением всплытия (.stop ) -->
             <div class="close" @click.stop="del(item.id)">X</div>
             <!--  -->
@@ -37,7 +37,7 @@
 
 <script>
 // import VueMasonryWall from "vue-masonry-wall";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "app",
@@ -46,26 +46,28 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["listOfNotes"]),
+    ...mapGetters(["listOfNotes", "userId"]),
     pinned() {
-      return this.listOfNotes.filter((e) => e.pin);
+      return this.listOfNotes.filter((e) => e.pin && !e.archive);
     },
     others() {
       return this.listOfNotes.filter((e) => !e.pin && !e.archive);
     },
   },
   methods: {
+    ...mapActions(["putListOfNotes"]),
     del(id) {
       console.log("del");
       this.$delete(
         this.listOfNotes,
         this.listOfNotes.findIndex((e) => e.id == id)
       );
+      this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core:"del" });
     },
     edit(id) {
       console.log("edit");
       this.$router.push(`/edit/${id}`);
-    },
+    }
   },
 };
 </script>

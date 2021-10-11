@@ -1,10 +1,8 @@
 <template>
-  <div>
-    
-    pin - {{nPin}}
-    ch - {{nCheckbox}}
+  <div>    
+    в архиве {{nArchive}}
     <div class="item" :style="{ background: newColor }">
-      <div class="close" @click="del(item.id)">X</div>
+      <div class="close" @click="del(id)">X</div>
       <input type="text" v-model="nTitle" />
 
       <!-- Если поле nCheckbox false, то показывать textbox, если true, то показывать список checkbox'ов -->
@@ -73,10 +71,20 @@
             @click="nCheckbox = !nCheckbox"
             title="В виде списка"
           ></i>
+          <i
+            :class="{
+              'el-icon-suitcase': !nArchive,
+              'el-icon-suitcase-1': nArchive,
+            }"
+            style="font-size:37px;"
+            @click="nArchive = !nArchive"
+            title="В Архив"
+          ></i>
           <el-button @click="cancel()">Отмена</el-button>
-          <el-button type="primary" @click="add()">Сохранить</el-button>
+          <el-button type="primary" @click="save()">Сохранить</el-button>
         </div>
       </div>
+      <!--  -->
     </div>
   </div>
 </template>
@@ -98,17 +106,22 @@ export default {
       nText: "",
       nCheckbox: null,
       nPin: null,
+      nArchive: null,
+      initItem: null
     };
   },
   mounted(){
-    let item = this.listOfNotes.filter((e) => e.id == this.id)[0];
-    this.nTitle = item.title
-    this.nText = item.text
-    this.nCheckbox = item.checkbox
-    item.checkbox
-      ? (this.inListView = item.text.split("\n").filter(Boolean))
+    debugger
+    this.initItem = this.listOfNotes.filter((e) => e.id == this.id)[0];
+    this.nTitle = this.initItem.title
+    this.nText = this.initItem.text
+    this.nCheckbox = this.initItem.checkbox
+    this.initItem.checkbox
+      ? (this.inListView = this.initItem.text.split("\n").filter(Boolean))
       : null;
-    this.nPin = item.pin    
+    this.nPin = this.initItem.pin 
+    this.nArchive = this.initItem.archive   
+    this.newColor = this.initItem.color   
   },
   watch:{
     nCheckbox(){
@@ -120,7 +133,31 @@ export default {
   },
   methods: {
     cancel(){
-      this.$router.push("/home")
+      this.$router.go(-1) // Возврат на предыдущий роут
+    },
+    del(id){
+      this.$delete(
+        this.listOfNotes,
+        this.listOfNotes.findIndex((e) => e.id == id)
+      );
+      this.$router.go(-1) // Возврат на предыдущий роут
+    },
+    save(){
+      this.initItem.color = this.newColor       
+      this.initItem.pin = this.nPin       
+      this.initItem.title = this.nTitle       
+      this.initItem.text = this.nText       
+      this.initItem.checkbox = this.nCheckbox       
+      this.initItem.archive = this.nArchive 
+      if(this.nArchive)
+        this.$message({
+          dangerouslyUseHTMLString: true,
+          message: `<span style="font-size:17px;">Заметка успешно перенесена в Архив</span>`,
+          type: 'success',
+          showClose: true,
+          duration: 2000
+        })
+      this.$router.go(-1) // Возврат на предыдущий роут
     }
   },
 };
@@ -148,7 +185,7 @@ export default {
 .form-footer {
   width: 98%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-gap: 10px;
 }
 .bordered {

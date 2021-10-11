@@ -69,6 +69,15 @@
                   @click="checkboxed = !checkboxed"
                   title="В виде списка"
                 ></i>
+                <i
+                  :class="{
+                    'el-icon-suitcase': !archived,
+                    'el-icon-suitcase-1': archived,
+                  }"
+                  style="font-size:37px;"
+                  @click="archived = !archived"
+                  title="В Архив"
+                ></i>
                 <el-button @click="setShowModal(false)">Отмена</el-button>
                 <el-button type="primary" @click="add()">Сохранить</el-button>
               </div>
@@ -102,10 +111,9 @@ export default {
         checkbox: this.checkboxed,
         color: this.newBgColor,
         id: id,
-        archive: false,
-        
+        archive: this.archived        
       });
-      this.putListOfNotes({ user: this.userId, list: this.listOfNotes });
+      this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core:this.archived ? "add-arch" : "add" });
     },
   },
   watch:{
@@ -126,6 +134,7 @@ export default {
       newBgColor: "#fff",
       pinned: false,
       checkboxed: false,
+      archived: false,
       checkedList: [],
       inListView: []
     };
@@ -145,7 +154,7 @@ export default {
 .form-footer {
   width: 98%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-gap: 10px;
 }
 .bordered {
