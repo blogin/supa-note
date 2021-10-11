@@ -1,29 +1,37 @@
 <template>
-  <div>   
+  <div>
     <div class="pinned" v-if="pinned.length">
       <p class="head">Закрепленные</p>
-          <masonry-wall :items="pinned" :column-width="250" :gap="10">
-              <template #default="{ item }">                
-                  <div class="item" :style="{background: item.color}" @click="edit(item.id)">
-                    <div class="close" @click="del(item.id)">X</div>
-                    <h1>{{ item.title }}</h1>
-                    <span>{{ item.text }}</span>
-                  </div>
-              </template>
-          </masonry-wall>
-    </div>
-    <div class="others">      
-      <p class="head" v-if="pinned.length">Другие</p>
-      <masonry-wall :items="others" :column-width="250" :gap="10">
+      <masonry-wall :items="pinned" :column-width="250" :gap="10">
         <template #default="{ item }">
-          <div class="item" :style="{background: item.color}">
-            <div class="close" @click="del(item.id)">X</div>
+          <div
+            class="item"
+            :style="{ background: item.color }"
+            @click="edit(item.id)"
+          >
+            <!-- Удаление с прекращением всплытия (.stop ) -->
+            <div class="close" @click.stop="del(item.id)">X</div>
+            <!--  -->
             <h1>{{ item.title }}</h1>
             <span>{{ item.text }}</span>
           </div>
         </template>
       </masonry-wall>
-    </div>    
+    </div>
+    <div class="others">
+      <p class="head" v-if="pinned.length">Другие</p>
+      <masonry-wall :items="others" :column-width="250" :gap="10">
+        <template #default="{ item }">
+          <div class="item" :style="{ background: item.color }">
+            <!-- Удаление с прекращением всплытия (.stop ) -->
+            <div class="close" @click.stop="del(item.id)">X</div>
+            <!--  -->
+            <h1>{{ item.title }}</h1>
+            <span>{{ item.text }}</span>
+          </div>
+        </template>
+      </masonry-wall>
+    </div>
   </div>
 </template>
 
@@ -35,8 +43,7 @@ export default {
   name: "app",
   components: {},
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     ...mapGetters(["listOfNotes"]),
@@ -49,11 +56,16 @@ export default {
   },
   methods: {
     del(id) {
-      this.$delete(this.listOfNotes, this.listOfNotes.findIndex(e => e.id == id))
+      console.log("del");
+      this.$delete(
+        this.listOfNotes,
+        this.listOfNotes.findIndex((e) => e.id == id)
+      );
     },
-    edit(id){
-      this.$router.push(`/edit/${id}`)
-    }
+    edit(id) {
+      console.log("edit");
+      this.$router.push(`/edit/${id}`);
+    },
   },
 };
 </script>
