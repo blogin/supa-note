@@ -26,6 +26,7 @@
       <!-- Параметры и кнопки -->
       <div class="form-footer-cont">
         <div class="form-footer">
+          <!-- Выбор цвета -->
           <el-popover placement="top" width="175" v-model="visible">
             <p>Выберите цвет заметки</p>
             <div class="grid-color">
@@ -46,6 +47,7 @@
               title="Цвет заметки"
             />
           </el-popover>
+          <!-- Значек закрепления -->
           <i
             :class="{
               'el-icon-bottom-left': nPin,
@@ -55,6 +57,7 @@
             @click="nPin = !nPin"
             title="Закрепить"
           ></i>
+          <!-- Представить в виде списка -->
           <i
             :class="{
               'el-icon-document': nCheckbox,
@@ -64,6 +67,7 @@
             @click="nCheckbox = !nCheckbox"
             title="В виде списка"
           ></i>
+          <!-- Перенести в архив -->
           <i
             :class="{
               'el-icon-suitcase': !nArchive,
@@ -107,7 +111,8 @@ export default {
     };
   },
   mounted(){
-    debugger
+    // при переходе в режим редактирования заметки делаем копии значений, для последующего сохранения изменных данных
+    // Думается мне что сейчас это реализовано г@нокодом и есть более изящное решение
     this.initItem = this.listOfNotes.filter((e) => e.id == this.id)[0];
     this.strNote = JSON.stringify(this.initItem)
     this.nTitle = this.initItem.title
@@ -117,13 +122,7 @@ export default {
     this.nPin = this.initItem.pin 
     this.nArchive = this.initItem.archive   
     this.newColor = this.initItem.color   
-    this.checkedList = this.initItem.checkedList ? this.initItem.checkedList : [] 
-    // if(this.listView.length !== 0){
-    //   this.listView = []
-    //   this.text.split("\n").filter(Boolean).forEach((e,i) => {
-    //     this.listView.push({name: e, value: `${this.id}_${e}_${i}`, checked: false})
-    //   })
-    // }       
+    this.checkedList = this.initItem.checkedList ? this.initItem.checkedList : []      
   },
   watch:{
     nCheckbox(){
