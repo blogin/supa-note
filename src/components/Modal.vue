@@ -27,7 +27,6 @@
                   <input class="custom-checkbox" type="checkbox" :value="l.value" :id="l.value" v-model="checkedList">
                   <label :for="l.value">{{l.name}}</label>
                 </div>
-                {{checkedList}}
               </div>
             </div>
             <div class="form-footer-cont">

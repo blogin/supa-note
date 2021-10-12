@@ -30,6 +30,7 @@ export default {
             duration: 2000
           }))
           commit("setUserId",firebase.auth().currentUser.uid)
+
           
         })
         .catch(error => {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='home-cont'>
     <div class="pinned" v-if="pinned.length">
       <p class="head">Закрепленные</p>
       <masonry-wall :items="pinned" :column-width="250" :gap="10">
@@ -91,7 +91,6 @@ export default {
       return items
     },
     del(id) {
-      console.log("del");
       this.$delete(
         this.listOfNotes,
         this.listOfNotes.findIndex((e) => e.id == id)
@@ -99,15 +98,8 @@ export default {
       this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core:"del" });
     },
     edit(id) {
-      console.log("edit");
       this.$router.push(`/edit/${id}`);
     },
-    qwe(item){
-      // console.log("item", item)
-      console.log("this.listOfNotes", this.listOfNotes)
-      // l.checkedList.push(l.value)
-      // this.putListOfNotes({ user: this.userId, list: this.listOfNotes, core: "save" });
-    }
   },
 };
 </script>
@@ -152,4 +144,5 @@ export default {
   cursor: pointer;
   color: #914444;
 }
+
 </style>

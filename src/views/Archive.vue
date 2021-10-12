@@ -33,7 +33,7 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   computed:{
-    ...mapGetters(["listOfNotes", "userId"]),
+    ...mapGetters(["listOfNotes", "userId", "colorFilter", "searchFilter"]),
     arch(){
       let items = this.listOfNotes.filter(e => e.archive)
       /***** Добавление фильтрации по цвету*/ 

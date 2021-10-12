@@ -4,7 +4,9 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Archive from '../views/Archive.vue'
 import Edit from '../views/EditNote.vue'
+import NotFound from '../views/NotFound.vue'
 import firebase from 'firebase';
+
 import {
   Message
 } from 'element-ui';
@@ -16,19 +18,24 @@ const routes = [{
     name: 'Home',
     component: Home,
     meta: {
+      title: "Заметки",
       authReq: true
     }
   },
   {
     path: '/',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      title: "Авторизация"
+    }
   },
   {
     path: '/archive',
     name: 'Archive',
     component: Archive,
     meta: {
+      title: "Архив",
       authReq: true
     }
   },
@@ -38,9 +45,11 @@ const routes = [{
     component: Edit,
     props: true,
     meta: {
+      title:"Редактирование",
       authReq: true
     }
   },
+  { path: '*', name: 'notfound', component: NotFound, meta: {title: 'Страница не найдена'} }
 ]
 
 
@@ -53,7 +62,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   
-  if (to.matched.some(record => record.meta.authReq)) {
+  if (to.meta.authReq) {
     if (firebase.auth().currentUser) {
       next();
     } else {

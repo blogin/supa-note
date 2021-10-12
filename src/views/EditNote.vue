@@ -1,6 +1,5 @@
 <template>
-  <div>    
-    checkedList {{checkedList}}
+  <div class="cont">    
     <div class="item" :style="{ background: newColor }">
       <div class="close" @click="del(id)">X</div>
       <input type="text" v-model="nTitle" />
@@ -10,13 +9,13 @@
         name=""
         id=""
         cols="30"
-        rows="15"
+        rows="30"
         placeholder="Заметка"
         v-model="nText"
         v-if="!nCheckbox"
       ></textarea>
        
-      <div v-if="nCheckbox && inListView">
+      <div v-if="nCheckbox && inListView" class="checkebox-cont">
         <div class="checkbox" v-for="(l,i) in listView" :key="i">
           <input class="custom-checkbox" type="checkbox" :value="l.value" :id="l.value" v-model="checkedList">
           <label :for="l.value">{{l.name}}</label>
@@ -181,6 +180,9 @@ export default {
 </script>
 
 <style scoped>
+.checkebox-cont{
+  padding:20px 15px;
+}
 .close {
   position: absolute;
   top: 5px;
@@ -222,13 +224,18 @@ export default {
   border-radius: 5px;
   cursor: pointer;
 }
+.cont{
+  position: relative;
+}
 .item {
   text-align: left;
   padding: 10px;
   border: 1px solid lightgrey;
   border-radius: 5px;
-  position: relative;
-  width: 500px;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,10%);
+  width: 800px;
 }
 .item input {
   border: none;

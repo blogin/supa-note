@@ -11,15 +11,16 @@
           >Главная</router-link
         >
       </el-menu-item>
-      <el-menu-item index="addNote" @click="setShowModal(true)"
-        >Добавить заметку</el-menu-item
-      >
       <el-menu-item index="Arch">
         <router-link to="/archive" class="dropdown-item outline"
           >Архив</router-link
         >
       </el-menu-item>
-      <el-menu-item index="LogOut">Выйти</el-menu-item>
+      <el-menu-item index="addNote" @click="setShowModal(true)"
+        >Добавить заметку</el-menu-item
+      >
+
+      
 
       <!-- Поиск значений -->
       <el-menu-item index="search">
@@ -29,11 +30,11 @@
             v-model="search"
             class="inp-search"
           ></el-input>
-        <button @click="searchTxt()">search</button>
+          <i class="el-icon-search search-custom-icon" @click="searchTxt()"></i>
         </div>
       </el-menu-item>
       <!--  -->
-      
+
       <!-- Фильтрация по цвету -->
       <el-menu-item index="colorFilter">
         Фильтр по цвету:
@@ -49,7 +50,9 @@
               ></div>
             </div>
           </div>
-          <p @click="setColorFilter(null)" class="cancel-color-filter">Отменить фильтрацию</p>
+          <p @click="setColorFilter(null)" class="cancel-color-filter">
+            Отменить фильтрацию
+          </p>
           <img
             src="../assets/c2.png"
             width="35"
@@ -61,6 +64,15 @@
         </el-popover>
       </el-menu-item>
       <!--  -->
+      <el-menu-item index="sColor">
+        <div
+          class="selectedColor"
+          :class="{ bordered: colorFilter == '#fff' }"
+          :style="{ background: colorFilter }"
+          v-if="colorFilter"
+        ></div>
+      </el-menu-item>
+      <el-menu-item index="LogOut">Выйти</el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -77,8 +89,8 @@ export default {
       visible: false,
     };
   },
-  computed:{
-    ...mapGetters(["predefineColors"])
+  computed: {
+    ...mapGetters(["predefineColors", "colorFilter"]),
   },
   methods: {
     ...mapMutations([
@@ -87,10 +99,10 @@ export default {
       "setShowNavBar",
       "setListOfNotes",
       "setColorFilter",
-      "setSearchFilter"
+      "setSearchFilter",
     ]),
-    searchTxt(){
-      this.setSearchFilter(this.search)
+    searchTxt() {
+      this.setSearchFilter(this.search);
     },
     handleSelect(key) {
       if (key == "LogOut") {
@@ -128,13 +140,33 @@ export default {
 </script>
 
 <style scoped>
-.cancel-color-filter{
-  cursor: pointer;
-  transition: .4s;
+.t-color-f-design {
+  margin-bottom: 10px;
 }
-.cancel-color-filter:hover{
-  color:#cc4510;
-  transition: .4s;
+.selectedColor {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  margin-top: 18px;
+  margin-left: -30px;
+}
+.search-custom-icon {
+  font-size: 28px !important;
+  margin: 2px 5px !important;
+  color: #b8b7b7 !important;
+  transition: 0.4s;
+}
+.search-custom-icon:hover {
+  color: #c7782f !important;
+  transition: 0.4s;
+}
+.cancel-color-filter {
+  cursor: pointer;
+  transition: 0.4s;
+}
+.cancel-color-filter:hover {
+  color: #cc4510;
+  transition: 0.4s;
 }
 .example-color {
   width: 25px;
@@ -147,7 +179,7 @@ export default {
   width: 23px !important;
   height: 23px !important;
 }
-.img-popover{
+.img-popover {
   margin-bottom: 5px;
 }
 .inp-search {
