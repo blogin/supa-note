@@ -17,11 +17,15 @@ export default {
     listOfNotes: [], 
     btnLoading: false, 
     btnLoadingReg: false, 
-    showNavBar: false
+    showNavBar: false,
+    colorFilter: null
   },
   getters: {
     predefineColors(state) {
       return state.predefineColors
+    },
+    colorFilter(state) {
+      return state.colorFilter
     },
     listOfNotes(state) {
       return state.listOfNotes
@@ -39,7 +43,9 @@ export default {
   mutations:{
     setListOfNotes(state,payload){
       state.listOfNotes = payload
-      state.initCopyListOfNotes = payload
+    },
+    setColorFilter(state,payload){
+      state.colorFilter = payload
     },
     setBtnLoading(state,payload){
       state.btnLoading = payload

@@ -60,7 +60,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["listOfNotes", "userId"]),
+    ...mapGetters(["listOfNotes", "userId", "colorFilter"]),
     pinned() {
       let items = this.listOfNotes.filter((e) => e.pin && !e.archive);
       if(items){
@@ -70,10 +70,21 @@ export default {
     },
     others() {
       debugger
-      let items = this.listOfNotes.filter((e) => !e.pin && !e.archive);
+      let items 
+      /***** Добавление фильтрации по цвету*/ 
+      if(this.colorFilter){
+        items = this.listOfNotes.filter((e) => !e.pin && !e.archive && e.color == this.colorFilter);
+      }else{
+        items = this.listOfNotes.filter((e) => !e.pin && !e.archive);
+      }
+      /********************************** */
+
+      // Если у заметки нет свойства checkedList, то добавить его в виде пустого массива
+      // Для того чтобы была возможность отдельно выделять галочки
       if(items){
         items.forEach((e,i) =>  !e.hasOwnProperty("checkedList") ? items[i].checkedList = [] : null );
       }
+      
       return items
     },
   },

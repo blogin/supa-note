@@ -29,6 +29,31 @@
           ></el-input>
         </div>
       </el-menu-item>
+      <el-menu-item index="colorFilter">
+        Фильтр по цвету:
+        <el-popover placement="top" width="175" v-model="visible">
+          <p>Выберите цвет заметки</p>
+          <div class="grid-color">
+            <div v-for="(c, i) in predefineColors" :key="i">
+              <div
+                class="example-color"
+                :style="{ backgroundColor: c }"
+                @click="filterColor(c)"
+                :class="{ bordered: i == 0 }"
+              ></div>
+            </div>
+          </div>
+          <p @click="setColorFilter(null)" style="cursor:pointer;">Отменить фильтрацию</p>
+          <img
+            src="../assets/c2.png"
+            width="35"
+            height="35"
+            slot="reference"
+            title="Цвет заметки"
+            class="img-popover"
+          />
+        </el-popover>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -41,8 +66,12 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      search:""
+      search: "",
+      visible: false,
     };
+  },
+  computed:{
+    ...mapGetters(["predefineColors"])
   },
   methods: {
     ...mapMutations([
@@ -50,9 +79,9 @@ export default {
       "setShowModal",
       "setShowNavBar",
       "setListOfNotes",
+      "setColorFilter"
     ]),
     changeBgColor(color) {
-      debugger
       this.newBgColor = color;
     },
     handleSelect(key) {
@@ -86,13 +115,30 @@ export default {
       } else if (key == "addNote") {
       }
     },
+    filterColor(color){
+      this.setColorFilter(color)
+    }
   },
 };
 </script>
 
 <style scoped>
-.inp-search{
-  margin-bottom:5px;
+.example-color {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.bordered {
+  border: 1px solid lightgrey;
+  width: 23px !important;
+  height: 23px !important;
+}
+.img-popover{
+  margin-bottom: 5px;
+}
+.inp-search {
+  margin-bottom: 5px;
   width: 250px;
 }
 .outline {
