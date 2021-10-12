@@ -60,36 +60,36 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["listOfNotes", "userId", "colorFilter"]),
+    ...mapGetters(["listOfNotes", "userId", "colorFilter", "searchFilter"]),
     pinned() {
-      let items = this.listOfNotes.filter((e) => e.pin && !e.archive);
-      if(items){
-        items.forEach((e,i) =>  !e.hasOwnProperty("checkedList") ? items[i].checkedList = [] : null );
-      }
-      return items
+      return this.colorTextFilter(this.listOfNotes.filter((e) => e.pin && !e.archive))
     },
     others() {
-      debugger
-      let items 
+      return this.colorTextFilter(this.listOfNotes.filter((e) => !e.pin && !e.archive))
+    },
+  },
+  methods: {
+    ...mapActions(["putListOfNotes"]),
+    colorTextFilter(items){
       /***** Добавление фильтрации по цвету*/ 
       if(this.colorFilter){
-        items = this.listOfNotes.filter((e) => !e.pin && !e.archive && e.color == this.colorFilter);
-      }else{
-        items = this.listOfNotes.filter((e) => !e.pin && !e.archive);
+        items = items.filter(e => e.color == this.colorFilter);
       }
       /********************************** */
+
+      /**************** Поиск по тексту и заголовку вне зависимости от регистра */
+      if(this.searchFilter){
+        items = items.filter(e => (e.title.toLowerCase().includes(this.searchFilter.toLowerCase()) || e.text.toLowerCase().includes(this.searchFilter.toLowerCase())));
+      }
+      /******************************************** */
 
       // Если у заметки нет свойства checkedList, то добавить его в виде пустого массива
       // Для того чтобы была возможность отдельно выделять галочки
       if(items){
         items.forEach((e,i) =>  !e.hasOwnProperty("checkedList") ? items[i].checkedList = [] : null );
       }
-      
       return items
     },
-  },
-  methods: {
-    ...mapActions(["putListOfNotes"]),
     del(id) {
       console.log("del");
       this.$delete(

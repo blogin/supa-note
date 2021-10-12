@@ -129,11 +129,12 @@ export default {
   watch:{
     nCheckbox(){
       debugger
-      if(this.nCheckbox) // Разбиваем текст на переносы. Удаляем дубликаты. Перебираем каждый элемент и добавляем в this.inListView объект
+      if(this.nCheckbox){ // Разбиваем текст на переносы. Удаляем дубликаты. Перебираем каждый элемент и добавляем в this.inListView объект
         this.listView = []
         this.nText.split("\n").filter(Boolean).forEach((e,i) => {
           this.listView.push({name: e, value: `${this.id}_${e}_${i}`, checked: false})
         })
+      }
     }
   },
   computed: {

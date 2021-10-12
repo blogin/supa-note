@@ -20,15 +20,21 @@
         >
       </el-menu-item>
       <el-menu-item index="LogOut">Выйти</el-menu-item>
+
+      <!-- Поиск значений -->
       <el-menu-item index="search">
-        <div @keyup.enter="search()">
+        <div @keyup.enter="setSearchFilter(search)">
           <el-input
             placeholder="Поиск..."
             v-model="search"
             class="inp-search"
           ></el-input>
+        <button @click="searchTxt()">search</button>
         </div>
       </el-menu-item>
+      <!--  -->
+      
+      <!-- Фильтрация по цвету -->
       <el-menu-item index="colorFilter">
         Фильтр по цвету:
         <el-popover placement="top" width="175" v-model="visible">
@@ -38,12 +44,12 @@
               <div
                 class="example-color"
                 :style="{ backgroundColor: c }"
-                @click="filterColor(c)"
+                @click="setColorFilter(c)"
                 :class="{ bordered: i == 0 }"
               ></div>
             </div>
           </div>
-          <p @click="setColorFilter(null)" style="cursor:pointer;">Отменить фильтрацию</p>
+          <p @click="setColorFilter(null)" class="cancel-color-filter">Отменить фильтрацию</p>
           <img
             src="../assets/c2.png"
             width="35"
@@ -54,6 +60,7 @@
           />
         </el-popover>
       </el-menu-item>
+      <!--  -->
     </el-menu>
   </div>
 </template>
@@ -79,10 +86,11 @@ export default {
       "setShowModal",
       "setShowNavBar",
       "setListOfNotes",
-      "setColorFilter"
+      "setColorFilter",
+      "setSearchFilter"
     ]),
-    changeBgColor(color) {
-      this.newBgColor = color;
+    searchTxt(){
+      this.setSearchFilter(this.search)
     },
     handleSelect(key) {
       if (key == "LogOut") {
@@ -115,14 +123,19 @@ export default {
       } else if (key == "addNote") {
       }
     },
-    filterColor(color){
-      this.setColorFilter(color)
-    }
   },
 };
 </script>
 
 <style scoped>
+.cancel-color-filter{
+  cursor: pointer;
+  transition: .4s;
+}
+.cancel-color-filter:hover{
+  color:#cc4510;
+  transition: .4s;
+}
 .example-color {
   width: 25px;
   height: 25px;

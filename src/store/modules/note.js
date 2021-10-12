@@ -18,7 +18,8 @@ export default {
     btnLoading: false, 
     btnLoadingReg: false, 
     showNavBar: false,
-    colorFilter: null
+    colorFilter: null,
+    searchFilter: '',
   },
   getters: {
     predefineColors(state) {
@@ -26,6 +27,9 @@ export default {
     },
     colorFilter(state) {
       return state.colorFilter
+    },
+    searchFilter(state) {
+      return state.searchFilter
     },
     listOfNotes(state) {
       return state.listOfNotes
@@ -46,6 +50,9 @@ export default {
     },
     setColorFilter(state,payload){
       state.colorFilter = payload
+    },
+    setSearchFilter(state,payload){
+      state.searchFilter = payload
     },
     setBtnLoading(state,payload){
       state.btnLoading = payload
