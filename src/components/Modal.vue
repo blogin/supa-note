@@ -121,7 +121,6 @@ export default {
           this.inListView.push({name: e, value: `${this.id}_${e}_${i}`, checked: false})
         })
       }
-      console.log("this.inListView", this.inListView)
     }
   },
   computed: {

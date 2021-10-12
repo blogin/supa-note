@@ -126,7 +126,6 @@ export default {
               duration: 1000
             }))
           }
-          console.log(resp.data)
         })
         .catch(error => {
           Message(({
