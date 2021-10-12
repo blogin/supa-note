@@ -31,6 +31,7 @@
             </div>
             <div class="form-footer-cont">
               <div class="form-footer">
+                <!-- Выбор цвета -->
                 <el-popover placement="top" width="175" v-model="visible">
                   <p>Выберите цвет заметки</p>
                   <div class="grid-color">
@@ -51,6 +52,7 @@
                     title="Цвет заметки"
                   />
                 </el-popover>
+                <!-- Закрепить -->
                 <i
                   :class="{
                     'el-icon-bottom-left': pinned,
@@ -60,6 +62,7 @@
                   @click="pinned = !pinned"
                   title="Закрепить"
                 ></i>
+                <!-- В виде списока -->
                 <i
                   :class="{
                     'el-icon-document': checkboxed,
@@ -69,6 +72,7 @@
                   @click="checkboxed = !checkboxed"
                   title="В виде списка"
                 ></i>
+                <!-- В архив -->
                 <i
                   :class="{
                     'el-icon-suitcase': !archived,
@@ -137,7 +141,7 @@ export default {
       archived: false,
       checkedList: [],
       inListView: [],
-      id: Math.random().toString(36).substr(2, 9)
+      id: Math.random().toString(36).substr(2, 9) // Генерим id заметки
     };
   },
 };
