@@ -52,6 +52,7 @@ export default {
       "setListOfNotes",
     ]),
     changeBgColor(color) {
+      debugger
       this.newBgColor = color;
     },
     handleSelect(key) {
